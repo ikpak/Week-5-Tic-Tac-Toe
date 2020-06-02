@@ -54,7 +54,7 @@ export default class Board extends Component {
 
         return (
             <div>
-                <h2>{status}</h2>
+                <h2 className="status">{status}</h2>
                 <div className="row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}

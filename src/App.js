@@ -23,16 +23,16 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Tic Tac Toe</h1>
+      <div className="body">
+        <h1 className="title">Xs and Os</h1>
         <div className="row">
-          <div>
+          <div className="board">
             <Board {...this.state} setTheState={this.setTheState} />
           </div>
-          <div>
-            History:
+          <div className="history">
+            <h3>History:</h3>
             {this.state.history.map((item, idx) => {
-              return <div><button onClick={() => this.timeTravel(idx)}>move {idx+1}</button></div>})
+              return <div className="move"><button onClick={() => this.timeTravel(idx)}>Move {idx+1}</button></div>})
             }
           </div>
         </div>
