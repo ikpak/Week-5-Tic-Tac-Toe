@@ -56,12 +56,28 @@ export default class Board extends Component {
         return null
     }
 
+    postData = async() => {
+        let data = new URLSearchParams()
+        data.append("player", "PLAYER_NAME")
+        data.append("score", "TIME_ELAPSED_IN_SECONDS")
+        const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: data.toString(),
+            json: true
+        })
+    }
+
     render() {
         const winner = this.calculateWinner(this.props.squares)
         let status = ''
 
         if(winner) {
             status = `Winner: ${winner}`
+            this.postData()
         } else {
             status = `Next player: ${this.props.isXNext ? 'X' : 'O'}`
         }

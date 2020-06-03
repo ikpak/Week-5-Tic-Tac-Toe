@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Board from './components/Board'
 import './App.css'
+import FacebookLogin from 'react-facebook-login'
 
 export default class App extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ export default class App extends Component {
       isXNext: true,
       history: [],
       winner: null,
-      current: 0
+      current: 0,
+      topRank: []
     }
   }
 
@@ -29,9 +31,32 @@ export default class App extends Component {
     })
   }
 
+  getData = async() => {
+    let url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`
+    let data = await fetch(url)
+    let result = await data.json()
+    this.setState({...this.state, topRank:result.items})
+  }
+
+  responseFacebook = (response) => {
+     
+  }
+
+  componentDidMount() {
+    this.getData()
+  }
+
   render() {
     return (
       <div className="body">
+        <div>
+          <FacebookLogin
+            autoLoad = {true}
+            appId = "188067455802571"
+            fields = "name, email, picture"
+            callback = {(resp) => this.responseFacebook(resp)}
+          />
+        </div>
         <h1 className="title">TIC-TAC-TOE</h1>
         <div className="row">
           <div className="board">
@@ -42,6 +67,12 @@ export default class App extends Component {
             {this.state.history.map((item, idx) => {
               return <div className="move"><button onClick={() => this.timeTravel(idx)}>Move {idx+1}</button></div>})
             }
+          </div>
+          <div className="ranking">
+            <h3>Top Ranking:</h3>
+            <ol>
+              {this.state.topRank.map(item => {return <li>{item.player}:{item.score}</li>})}
+            </ol>
           </div>
         </div>
       </div>

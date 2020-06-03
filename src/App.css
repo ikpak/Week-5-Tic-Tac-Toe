@@ -60,3 +60,12 @@ body {
   cursor: pointer;
   opacity: 90%;
 }
+
+.ranking {
+  margin-left: 50px;
+  color: #D9C1B8;
+}
+
+.ranking > h3 {
+  color: #F27405;
+}
