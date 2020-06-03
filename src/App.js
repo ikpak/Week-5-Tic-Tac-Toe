@@ -9,7 +9,8 @@ export default class App extends Component {
       squares: Array(9).fill(null),
       isXNext: true,
       history: [],
-      winner: null
+      winner: null,
+      current: 0
     }
   }
 
@@ -18,13 +19,20 @@ export default class App extends Component {
   }
 
   timeTravel = (id) => {
-    this.setTheState(this.state.history[id])
+    let newArray = this.state.history.slice()
+
+    this.setState({
+      squares: newArray[id].squares.slice(),
+      isXNext: newArray[id].isXNext,
+      history: newArray.slice(),
+      current: id
+    })
   }
 
   render() {
     return (
       <div className="body">
-        <h1 className="title">Xs and Os</h1>
+        <h1 className="title">TIC-TAC-TOE</h1>
         <div className="row">
           <div className="board">
             <Board {...this.state} setTheState={this.setTheState} />

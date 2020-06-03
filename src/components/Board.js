@@ -7,6 +7,10 @@ export default class Board extends Component {
     }
 
     boxClick = (id) => {
+        let currentPointer = this.props.current
+
+        currentPointer++
+
         let squaresFromApp = this.props.squares
 
         if(this.calculateWinner(squaresFromApp) || squaresFromApp[id]) {
@@ -15,9 +19,19 @@ export default class Board extends Component {
         } 
 
         squaresFromApp[id] = this.props.isXNext ? 'X' : 'O'
+
+        let cutHistory = this.props.history.slice(0, currentPointer)
+
         this.props.setTheState ({
-            squares: squaresFromApp, isXNext: !this.props.isXNext, 
-            history: [...this.props.history, {squares: squaresFromApp.slice(), isXNext: !this.props.isXNext}]
+            squares: squaresFromApp.slice(), 
+            isXNext: !this.props.isXNext, 
+            history: [
+                ...cutHistory.slice(), {
+                    squares: squaresFromApp.slice(), 
+                    isXNext: !this.props.isXNext
+                }
+            ],
+            current: currentPointer
         })
     }
 
