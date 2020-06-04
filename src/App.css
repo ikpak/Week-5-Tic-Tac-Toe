@@ -57,13 +57,6 @@ body {
   color: #D9C1B8;
 }
 
-.startBtn {
-  background-color: #F24822;
-  border-style: none;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
 .board {
   margin-left: 50px;
 }

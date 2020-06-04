@@ -14,7 +14,6 @@ export default class App extends Component {
       current: 0,
       topRank: [],
       userName: null,
-      time: 0
     }
   }
 
@@ -33,12 +32,8 @@ export default class App extends Component {
     })
   }
 
-  timer = () => {
-    
-  }
-
   getData = async() => {
-    let url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`
+    let url = `https://ftw-highscores.herokuapp.com/tictactoe-dev`
     let data = await fetch(url)
     let result = await data.json()
     this.setState({...this.state, topRank:result.items})
@@ -57,7 +52,8 @@ export default class App extends Component {
     let data = new URLSearchParams()
     data.append("player", this.state.userName.name)
     data.append("score", duration)
-    const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`
+    console.log("time", duration)
+    const url = `https://ftw-highscores.herokuapp.com/tictactoe-dev`
     const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -90,13 +86,8 @@ export default class App extends Component {
         </div>
         <h1 className="title">TIC-TAC-TOE</h1>
         <div className="row">
-          <div className="time">
-            <h3>Time:</h3>
-            <div>{this.state.time}</div>
-            <button className="startBtn" onClick={this.timer()}>START</button>
-          </div>
           <div className="board">
-            <Board {...this.state} setTheState={this.setTheState} postData={this.postData} />
+            <Board {...this.state} setTheState={this.setTheState} postData={this.postData} getData={this.getData} />
           </div>
           <div className="history">
             <h3>History:</h3>

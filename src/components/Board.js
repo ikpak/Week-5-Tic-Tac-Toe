@@ -39,9 +39,8 @@ export default class Board extends Component {
         if(winner) {
             this.setState({status:`Winner: ${winner}`})
             endTime = Date.now()
-            let duration = Math.floor((startTime - endTime) / 1000)
+            let duration = Math.floor((endTime - startTime) / 1000)
             this.props.postData(duration)
-            this.props.getData()
         } else {
             this.setState({status: `Next player: ${this.props.isXNext ? 'X' : 'O'}`})
         }
@@ -84,6 +83,8 @@ export default class Board extends Component {
     }
 
     render() {
+        this.props.getData()
+
         return (
             <div>
                 <h2 className="status">{this.state.status}</h2>
