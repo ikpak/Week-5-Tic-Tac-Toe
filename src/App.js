@@ -13,7 +13,7 @@ export default class App extends Component {
       winner: null,
       current: 0,
       topRank: [],
-      userName: null,
+      userName: "User Name"
     }
   }
 
@@ -70,7 +70,7 @@ export default class App extends Component {
       <div className="body">
         <div className="row facebook">
           {(this.state.userName) ? 
-            <div className="user row">User Name: <div className="name">{this.state.userName.name}</div></div> : 
+            <div className="user row">User Name:<div className="name">{this.state.userName.name}</div></div> : 
             <div>
               <FacebookLogin
                 className = "loginBtn"
