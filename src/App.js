@@ -12,7 +12,9 @@ export default class App extends Component {
       history: [],
       winner: null,
       current: 0,
-      topRank: []
+      topRank: [],
+      userName: null,
+      time: 0
     }
   }
 
@@ -31,6 +33,10 @@ export default class App extends Component {
     })
   }
 
+  timer = () => {
+    
+  }
+
   getData = async() => {
     let url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`
     let data = await fetch(url)
@@ -39,28 +45,58 @@ export default class App extends Component {
   }
 
   responseFacebook = (response) => {
-     
+    console.log("Response is:", response)
+    this.setState({userName: response})
   }
 
   componentDidMount() {
     this.getData()
   }
 
+  postData = async(duration) => {
+    let data = new URLSearchParams()
+    data.append("player", this.state.userName.name)
+    data.append("score", duration)
+    const url = `http://ftw-highscores.herokuapp.com/tictactoe-dev`
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: data.toString(),
+        json: true
+    })
+    console.log("Post data:", response)
+  }
+
   render() {
     return (
       <div className="body">
-        <div>
-          <FacebookLogin
-            autoLoad = {true}
-            appId = "188067455802571"
-            fields = "name, email, picture"
-            callback = {(resp) => this.responseFacebook(resp)}
-          />
+        <div className="row facebook">
+          {(this.state.userName) ? 
+            <div className="user row">User Name: <div className="name">{this.state.userName.name}</div></div> : 
+            <div>
+              <FacebookLogin
+                className = "loginBtn"
+                autoLoad = {true}
+                appId = "188067455802571"
+                fields = "name, email, picture"
+                callback = {(resp) => this.responseFacebook(resp)}
+                textButton = "Login"
+                icon = "fab fa-facebook-square"
+              />
+            </div>
+          }
         </div>
         <h1 className="title">TIC-TAC-TOE</h1>
         <div className="row">
+          <div className="time">
+            <h3>Time:</h3>
+            <div>{this.state.time}</div>
+            <button className="startBtn" onClick={this.timer()}>START</button>
+          </div>
           <div className="board">
-            <Board {...this.state} setTheState={this.setTheState} />
+            <Board {...this.state} setTheState={this.setTheState} postData={this.postData} />
           </div>
           <div className="history">
             <h3>History:</h3>
